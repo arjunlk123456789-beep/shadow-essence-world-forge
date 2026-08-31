@@ -29,3 +29,4 @@
 - [x] Add direct Forge router tests for proposal apply/reject, Gemini save/status, snapshot, and QA procedures.
 - [x] Add direct Vitest router tests for forge.saveGeminiKey, forge.geminiStatus, and forge.testGemini, including success and failure status transitions.
 - [x] Assert that failed forge.testGemini requests persist the invalid Gemini status in the direct router test.
+- [x] Fix missing unique React key warning in the World QA list render.

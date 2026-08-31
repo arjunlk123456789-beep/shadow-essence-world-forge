@@ -11,6 +11,12 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/world"} component={Home} />
+      <Route path={"/assets"} component={Home} />
+      <Route path={"/blueprints"} component={Home} />
+      <Route path={"/qa"} component={Home} />
+      <Route path={"/ai"} component={Home} />
+      <Route path={"/settings"} component={Home} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -27,7 +33,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="light"
+        defaultTheme="dark"
         // switchable
       >
         <TooltipProvider>

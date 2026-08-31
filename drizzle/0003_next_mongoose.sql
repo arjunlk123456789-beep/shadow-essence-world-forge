@@ -1,0 +1,1 @@
+ALTER TABLE `map_blueprints` MODIFY COLUMN `connectionIds` varchar(1000) NOT NULL DEFAULT '[]';

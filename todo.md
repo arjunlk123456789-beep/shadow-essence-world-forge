@@ -1,0 +1,31 @@
+# Project TODO
+
+- [x] Establish the canonical World Forge data vocabulary for regions, locations, notes, NPCs, lore, progression, assets, map blueprints, QA findings, and AI proposals.
+- [x] Define approval rules so AI-generated changes remain proposals until explicitly applied.
+- [x] Add database tables and migrations for canonical world data, assets, map blueprints, QA findings, and AI proposals.
+- [x] Add secure Gemini API configuration and a server-only test endpoint; never expose the key to browser code.
+- [x] Add server procedures for dashboard summaries, canonical records, asset metadata, blueprints, QA checks, AI proposals, and proposal approval.
+- [x] Build the elegant World Forge dashboard with navigation for Overview, World Bible, Asset Library, Blueprints, World QA, AI Studio, and Settings.
+- [x] Build the 16×16 asset-library workspace with ZIP import status, analysis metadata, footprint tracking, and Tiled workflow guidance.
+- [x] Build the map-blueprint workflow for dimensions, connections, required encounters, lore, secrets, exits, and export-oriented metadata.
+- [x] Build the World QA view for broken links, missing asset references, incomplete lore requirements, and progression leaks.
+- [x] Build the approval-based AI workspace for map, lore, and asset suggestions with explicit Apply and Reject actions.
+- [x] Build the Gemini settings screen with secure key entry guidance and a test-connection action.
+- [x] Add Vitest coverage for approval gating, QA rules, Gemini key isolation, and core procedures.
+- [x] Run type checks, tests, and visual responsive verification.
+- [ ] Save the initial completed project checkpoint and deliver the working platform.
+- [x] Add an in-app Gemini API-key form that submits only to the server and never exposes the key in client bundles.
+- [x] Store the user-provided Gemini key protected at rest and return only masked connection status to the UI.
+- [x] Add a server-side Gemini test action and clear error states for missing, invalid, or unavailable credentials.
+- [x] Integrate per-sprite asset manifest ingestion into the web app and surface footprint_cells and tile-footprint data in Asset Library.
+- [x] Make blueprint requirements fully user-driven and persist selected encounters, lore, secrets, exits, connections, and export metadata.
+- [x] Implement real QA validation over explicit blueprint, location, and asset references instead of heuristic counts.
+- [x] Add Vitest tests for proposal approval/rejection rules, QA findings, Gemini status transitions, and core Forge procedures.
+- [x] Surface stored manifest footprint details in Asset Library UI, including footprint_cells and tile-footprint summaries.
+- [x] Add explicit export metadata fields to blueprint creation, storage, and UI.
+- [x] Model blueprint connections with explicit canonical location IDs and validate broken links against stored records.
+- [x] Add Vitest coverage for Forge router procedures, including proposal apply/reject, Gemini settings, snapshot, and QA behavior.
+- [x] Update World QA to validate blueprint connectionIds against existing canonical location records and report missing linked IDs.
+- [x] Add direct Forge router tests for proposal apply/reject, Gemini save/status, snapshot, and QA procedures.
+- [x] Add direct Vitest router tests for forge.saveGeminiKey, forge.geminiStatus, and forge.testGemini, including success and failure status transitions.
+- [x] Assert that failed forge.testGemini requests persist the invalid Gemini status in the direct router test.

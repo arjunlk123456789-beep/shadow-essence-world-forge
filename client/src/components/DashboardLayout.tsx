@@ -21,15 +21,20 @@ import {
 } from "@/components/ui/sidebar";
 import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import { BookOpen, Boxes, GitBranch, LayoutDashboard, LogOut, Map, PanelLeft, Settings2, ShieldCheck, Sparkles } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: LayoutDashboard, label: "Command center", path: "/" },
+  { icon: BookOpen, label: "World Bible", path: "/world" },
+  { icon: Boxes, label: "Asset Library", path: "/assets" },
+  { icon: Map, label: "Blueprints", path: "/blueprints" },
+  { icon: ShieldCheck, label: "World QA", path: "/qa" },
+  { icon: Sparkles, label: "AI Studio", path: "/ai" },
+  { icon: Settings2, label: "Settings", path: "/settings" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -158,7 +163,8 @@ function DashboardLayoutContent({
           disableTransition={isResizing}
         >
           <SidebarHeader className="h-16 justify-center">
-            <div className="flex items-center gap-3 px-2 transition-all w-full">
+                <div className="flex items-center gap-3 px-2 transition-all w-full">
+              <div className="forge-mark" aria-hidden="true"><span /></div>
               <button
                 onClick={toggleSidebar}
                 className="h-8 w-8 flex items-center justify-center hover:bg-accent rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring shrink-0"
@@ -168,9 +174,9 @@ function DashboardLayoutContent({
               </button>
               {!isCollapsed ? (
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="font-semibold tracking-tight truncate">
-                    Navigation
-                  </span>
+                    <span className="font-semibold tracking-tight truncate text-foreground text-[13px]">
+                    SHADOW ESSENCE
+                    </span>
                 </div>
               ) : null}
             </div>

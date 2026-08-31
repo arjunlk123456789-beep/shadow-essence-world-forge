@@ -13,7 +13,7 @@
 - [x] Build the Gemini settings screen with secure key entry guidance and a test-connection action.
 - [x] Add Vitest coverage for approval gating, QA rules, Gemini key isolation, and core procedures.
 - [x] Run type checks, tests, and visual responsive verification.
-- [ ] Save the initial completed project checkpoint and deliver the working platform.
+- [x] Save the initial completed project checkpoint and deliver the working platform.
 - [x] Add an in-app Gemini API-key form that submits only to the server and never exposes the key in client bundles.
 - [x] Store the user-provided Gemini key protected at rest and return only masked connection status to the UI.
 - [x] Add a server-side Gemini test action and clear error states for missing, invalid, or unavailable credentials.

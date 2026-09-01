@@ -16,6 +16,7 @@ function Router() {
       <Route path={"/blueprints"} component={Home} />
       <Route path={"/qa"} component={Home} />
       <Route path={"/ai"} component={Home} />
+      <Route path={"/editor"} component={Home} />
       <Route path={"/settings"} component={Home} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

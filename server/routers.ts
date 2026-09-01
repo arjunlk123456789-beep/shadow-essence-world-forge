@@ -10,8 +10,18 @@ import { aiProposals, assetPacks, getDb, getForgeSnapshot, getSettings, mapBluep
 import { eq } from "drizzle-orm";
 import { validateWorld } from "./qa";
 import { canApplyProposal, statusAfterGeminiTest, statusAfterKeySave } from "./workflow";
+import { architectJsonSchema, buildArchitectPrompt, validateWorldPlan, worldPlanSchema } from "./worldArchitect";
 
 const proposalType = z.enum(["map", "lore", "asset"]);
+
+async function callGeminiArchitect(key: string, prompt: string) {
+  const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + encodeURIComponent(key), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2, maxOutputTokens: 3200, responseMimeType: "application/json", responseSchema: architectJsonSchema() } }) });
+  if (!response.ok) throw new Error(`Gemini request failed (${response.status})`);
+  const data = await response.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
+  const text = data.candidates?.[0]?.content?.parts?.map(part => part.text ?? "").join("").trim();
+  if (!text) throw new Error("Gemini returned an empty world plan.");
+  return worldPlanSchema.parse(JSON.parse(text));
+}
 
 async function callGemini(key: string, prompt: string) {
   const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + encodeURIComponent(key), {
@@ -66,6 +76,18 @@ export const appRouter = router({
       return [...snapshot.findings.map(item => ({ severity: item.severity, category: item.category, message: item.message })), ...(snapshot.records.length === 0 ? [{ severity: "info" as const, category: "world-bible", message: "Create the first canonical region or location record to start the world graph." }] : []), ...derived];
     }),
     proposals: protectedProcedure.query(({ ctx }) => getForgeSnapshot(ctx.user.id).then(snapshot => snapshot.proposals)),
+    architectPlan: protectedProcedure.input(z.object({ command: z.string().min(10).max(2000), scope: z.object({ blueprintId: z.number().int().positive().optional(), regionId: z.number().int().positive().optional(), layer: z.enum(["terrain", "assets", "lore", "npcs", "connections", "preview"]), bounds: z.object({ x: z.number().int().nonnegative(), y: z.number().int().nonnegative(), width: z.number().int().positive().max(500), height: z.number().int().positive().max(500) }) }) })).mutation(async ({ ctx, input }) => {
+      const settings = await getSettings(ctx.user.id); const key = settings?.geminiApiKeyEncrypted ? decryptSecret(settings.geminiApiKeyEncrypted) : null;
+      if (!key) throw new Error("Configure a Gemini API key in Settings before opening the World Architect.");
+      const snapshot = await getForgeSnapshot(ctx.user.id);
+      const prompt = buildArchitectPrompt({ command: input.command, scope: input.scope, canon: snapshot.records, previousDecisions: snapshot.proposals.filter(proposal => proposal.status === "applied").slice(0, 20) });
+      const plan = await callGeminiArchitect(key, prompt);
+      const validation = validateWorldPlan(plan, 16, { recordIds: new Set(snapshot.records.map((record: any) => record.id)), assetIds: new Set(snapshot.packs.map((pack: any) => pack.id)), blueprintIds: new Set(snapshot.blueprints.map((blueprint: any) => blueprint.id)) });
+      if (!validation.valid) throw new Error(`World plan rejected by safety validation: ${validation.errors.join(" ")}`);
+      const db = await getDb(); if (!db) throw new Error("Database unavailable");
+      const result = await db.insert(aiProposals).values({ userId: ctx.user.id, proposalType: "map", prompt: input.command, content: JSON.stringify(plan) , status: "pending" });
+      return { proposalId: Number(result[0].insertId), plan, validation, status: "pending" as const };
+    }),
     generateProposal: protectedProcedure.input(z.object({ type: proposalType, prompt: z.string().min(10), context: z.string().optional() })).mutation(async ({ ctx, input }) => {
       const settings = await getSettings(ctx.user.id);
       const key = settings?.geminiApiKeyEncrypted ? decryptSecret(settings.geminiApiKeyEncrypted) : null;
@@ -84,6 +106,18 @@ export const appRouter = router({
       await db.update(aiProposals).set({ status: "applied", reviewedAt: new Date() }).where(eq(aiProposals.id, input.id));
       await db.insert(worldRecords).values({ userId: ctx.user.id, kind: `ai-${proposal.proposalType}`, title: `Approved ${proposal.proposalType} proposal`, summary: "Applied from an approved AI proposal.", payload: JSON.stringify({ proposalId: proposal.id, content: proposal.content }) });
       return { success: true };
+    }),
+    applyArchitectPlan: protectedProcedure.input(z.object({ id: z.number().int().positive() })).mutation(async ({ ctx, input }) => {
+      const db = await getDb(); if (!db) throw new Error("Database unavailable");
+      const rows = await db.select().from(aiProposals).where(eq(aiProposals.id, input.id)).limit(1); const proposal = rows[0];
+      if (!proposal || proposal.userId !== ctx.user.id) throw new Error("World plan not found");
+      if (!canApplyProposal(proposal.status)) throw new Error("Only pending world plans can be applied");
+      const plan = worldPlanSchema.parse(JSON.parse(proposal.content));
+      const snapshot = await getForgeSnapshot(ctx.user.id);
+      const validation = validateWorldPlan(plan, 16, { recordIds: new Set(snapshot.records.map((record: any) => record.id)), assetIds: new Set(snapshot.packs.map((pack: any) => pack.id)), blueprintIds: new Set(snapshot.blueprints.map((blueprint: any) => blueprint.id)) }); if (!validation.valid) throw new Error(`World plan is no longer valid: ${validation.errors.join(" ")}`);
+      for (const operation of plan.operations) await db.insert(worldRecords).values({ userId: ctx.user.id, kind: `operation-${operation.kind}`, title: operation.id, summary: operation.reason, payload: JSON.stringify({ sourceProposalId: proposal.id, scope: plan.scope, layer: operation.layer, target: operation.target, data: operation.data }) });
+      await db.update(aiProposals).set({ status: "applied", reviewedAt: new Date() }).where(eq(aiProposals.id, input.id));
+      return { success: true, appliedOperations: plan.operations.length };
     }),
     rejectProposal: protectedProcedure.input(z.object({ id: z.number().int().positive() })).mutation(async ({ ctx, input }) => {
       const db = await getDb(); if (!db) throw new Error("Database unavailable");

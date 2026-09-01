@@ -30,3 +30,16 @@
 - [x] Add direct Vitest router tests for forge.saveGeminiKey, forge.geminiStatus, and forge.testGemini, including success and failure status transitions.
 - [x] Assert that failed forge.testGemini requests persist the invalid Gemini status in the direct router test.
 - [x] Fix missing unique React key warning in the World QA list render.
+- [x] Define a versioned structured AI world-operation schema for terrain, assets, lore, NPCs, roads, rivers, and world-preview changes.
+- [x] Add scoped editor state for selected blueprint, region, layer, and map bounds.
+- [x] Add server-side AI World Architect planning that uses canonical world data and prior approved decisions as context.
+- [x] Validate AI operations against schema, 16×16 grid rules, selected scope, asset references, and canonical constraints.
+- [x] Add approval-gated editor proposals with human-readable diff and explicit Apply/Reject actions.
+- [x] Build the AI-first editor workspace with natural-language command input, operation inspector, world preview, and change history.
+- [x] Add tests for structured operation parsing, scope enforcement, canon memory, validation, and approval gating.
+- [x] Verify the AI editor responsively and save the updated project checkpoint.
+- [ ] Extend the structured operation schema and editor diff to include explicit road and river operations.
+- [ ] Strengthen World Architect validation against actual canonical records, assets, and selected blueprints.
+- [ ] Add a World Architect change-history panel for staged, applied, and rejected plans.
+- [ ] Add tests for applyArchitectPlan pending-only behavior, rejection flow, and canonical reference validation.
+- [ ] Restore preview access, verify /editor responsively, and save a new checkpoint after the AI editor build.

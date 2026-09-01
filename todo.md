@@ -38,8 +38,11 @@
 - [x] Build the AI-first editor workspace with natural-language command input, operation inspector, world preview, and change history.
 - [x] Add tests for structured operation parsing, scope enforcement, canon memory, validation, and approval gating.
 - [x] Verify the AI editor responsively and save the updated project checkpoint.
-- [ ] Extend the structured operation schema and editor diff to include explicit road and river operations.
-- [ ] Strengthen World Architect validation against actual canonical records, assets, and selected blueprints.
-- [ ] Add a World Architect change-history panel for staged, applied, and rejected plans.
-- [ ] Add tests for applyArchitectPlan pending-only behavior, rejection flow, and canonical reference validation.
+- [x] Extend the structured operation schema and editor diff to include explicit road and river operations.
+- [x] Strengthen World Architect validation against actual canonical records, assets, and selected blueprints.
+- [x] Add a World Architect change-history panel for staged, applied, and rejected plans.
+- [x] Add tests for applyArchitectPlan pending-only behavior, rejection flow, and canonical reference validation.
 - [ ] Restore preview access, verify /editor responsively, and save a new checkpoint after the AI editor build.
+- [x] Add a test proving the World Architect reject flow leaves the plan non-canonical.
+- [x] Add tests proving invalid blueprint, region, asset, and record/location references are rejected by World Architect validation.
+- [x] Add invalid locationId coverage and assert every expected blueprint, region, asset, record, and location reference error individually.

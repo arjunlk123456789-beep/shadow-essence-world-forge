@@ -42,7 +42,47 @@
 - [x] Strengthen World Architect validation against actual canonical records, assets, and selected blueprints.
 - [x] Add a World Architect change-history panel for staged, applied, and rejected plans.
 - [x] Add tests for applyArchitectPlan pending-only behavior, rejection flow, and canonical reference validation.
-- [ ] Restore preview access, verify /editor responsively, and save a new checkpoint after the AI editor build.
+- [x] Restore preview access, verify /editor responsively, and save a new checkpoint after the AI editor build.
 - [x] Add a test proving the World Architect reject flow leaves the plan non-canonical.
 - [x] Add tests proving invalid blueprint, region, asset, and record/location references are rejected by World Architect validation.
 - [x] Add invalid locationId coverage and assert every expected blueprint, region, asset, record, and location reference error individually.
+- [x] Define the five editor modes and shared canvas interaction state.
+- [x] Build a 16×16 interactive canvas with grid, pan/zoom, selection, and map-cell coordinates.
+- [x] Add editable layer visibility and lock controls for terrain, water, roads, buildings, nature, NPCs, objects, effects, collision, events, and spawn points.
+- [x] Add World mode controls for region navigation, biome context, minimap, and world coordinates.
+- [x] Add Paint mode controls for terrain brush, water, roads, rivers, snap, erase, and auto-tiling-ready paint state.
+- [x] Add Build mode controls for drag/drop-style asset placement, NPCs, props, buildings, encounters, and inspector fields.
+- [x] Add Scene mode controls for day/night, weather, camera, lighting, effects, and preview state.
+- [x] Add Logic mode controls for events, triggers, quests, interactions, and visual flow nodes.
+- [x] Integrate scoped AI generation into the editor so generated changes remain editable proposals until approval.
+- [x] Add editor history, undo-oriented timeline state, and preview/test controls.
+- [x] Add Vitest coverage for canvas operations, layer locks, mode state, scoped AI edits, and history behavior.
+- [x] Verify the five-mode editor responsively and save a reviewable checkpoint.
+- [x] Implement real canvas panning with maintained viewport offset and drag movement.
+- [x] Make layer visibility affect rendered canvas content and enforce layer locks during edits.
+- [x] Add functional World controls for region focus, minimap visibility, and world coordinate navigation.
+- [x] Add functional Paint snap, terrain palette, and auto-tiling-ready behavior.
+- [x] Implement differentiated Build placements for assets, NPCs, props, buildings, and encounters.
+- [x] Extend Scene mode with camera, lighting, effects, and preview state management.
+- [x] Build functional Logic node editing and connections for events, triggers, quests, and interactions.
+- [x] Embed scoped AI proposal generation and approval review directly inside Studio.
+- [x] Add undo/redo, history restoration, and actual preview/test controls.
+- [x] Expand Studio tests for layer locks, mode state, history, and scoped AI integration.
+- [x] Make every Studio layer toggle affect rendering and enforce lock behavior for all editable layer types.
+- [x] Add true world-coordinate jump-to-cell controls in World mode.
+- [x] Add dedicated snap state and real auto-tiling-related paint behavior.
+- [x] Add camera controls/state and connect camera settings to Scene preview.
+- [x] Implement a real Logic graph with editable node connections and edges.
+- [x] Add explicit play/test controls to Studio.
+- [x] Add actual Studio AI proposal and mode/state transition coverage.
+- [x] Save a new reviewable checkpoint after the recovered /editor and /studio verification pass.
+- [x] Make Roads independently renderable and enforce lock rules for differentiated build layers.
+- [x] Connect snapToGrid to actual coordinate snapping and keep autoTile behavior separate.
+- [x] Tie camera transforms to Scene preview and make play/test execute a visible validation state.
+- [x] Add Studio integration tests for mode switching, proposal generation/apply/reject, and state transitions.
+- [x] Make snapToGrid produce a materially different, observable edit result for unsnapped versus snapped cell input.
+- [x] Add real play-test validation output with checked warnings/errors for the current Studio draft.
+- [x] Add direct Studio state tests for mode switching, AI proposal staging, apply/reject transitions, and history state changes.
+- [x] Save a new reviewable checkpoint after the final verified Studio build.
+- [x] Implement pointer-derived snap behavior where unsnapped pointer positions can edit a different cell or mark than snapped positions.
+- [x] Add direct Studio workflow state coverage for mode switching, proposal staging, approval/rejection, and history transitions.

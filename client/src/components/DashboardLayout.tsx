@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { BookOpen, Boxes, Braces, GitBranch, LayoutDashboard, LogOut, Map, PanelLeft, Settings2, ShieldCheck, Sparkles } from "lucide-react";
+import { BookOpen, Boxes, Braces, GitBranch, Grid3X3, LayoutDashboard, LogOut, Map, PanelLeft, Settings2, ShieldCheck, Sparkles } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -35,6 +35,7 @@ const menuItems = [
   { icon: ShieldCheck, label: "World QA", path: "/qa" },
   { icon: Sparkles, label: "AI Studio", path: "/ai" },
   { icon: Braces, label: "World Architect", path: "/editor" },
+  { icon: Grid3X3, label: "World Studio", path: "/studio" },
   { icon: Settings2, label: "Settings", path: "/settings" },
 ];
 
